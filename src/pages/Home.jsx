@@ -13,6 +13,8 @@ function Home() {
   const { recentPurchase, setRecentPurchase } = useContext(addToBillContext)
   const { favorites, setFavorites } = useContext(addToBillContext)
 
+  console.log(favorites)
+
 
 
   const addBill = (value, price, image, qty) => {
@@ -49,8 +51,8 @@ function Home() {
     }
   };
 
-  console.log('****favor*****')
-  console.log(favorites)
+  // console.log('****favor*****')
+  // console.log(favorites)
 
 
 
@@ -64,32 +66,32 @@ function Home() {
         <div className='recentlyPurchased_div mt-3' >
 
           <h2>Recently Purchased Items</h2>
-          <Row >
+          <Row  >
 
+            <div className='posters' >
             {
               recentPurchase?.length > 0 ?                      /* RESULT IS THE FETCHED DATA */
                 recentPurchase.map((items, index) => (
-                  <Col className='mt-3 searchbox' sm={12} md={12} lg={4} xl={3} xs={12} >
+
+
+                  <Col className='mt-3 ms-3 searchbox' sm={12} md={12} lg={4} xl={3} xs={12} >
 
                     <div className='card-container' >
                       <Card className='cards' >
-                        <Card.Img variant="top" width={'100%'} height={'100px'} src={items.thumbnail} />
+                        <Card.Img variant="top" width={'100%'} height={'100px'} src={items.image} />
                         <Card.Body>
-                          <Card.Title>{items.title}</Card.Title>
+                          <Card.Title>{items.name.slice(0,15)}</Card.Title>
                           <Card.Text>
                             <span className='priceQty_tag' >Price: </span>  {items.price}
 
                           </Card.Text>
                           <Card.Text>
-                            <span className='priceQty_tag' >  Quantity Available:  </span>{items.stock}
+                            <span className='priceQty_tag' >  Quantity:  </span>{items.stock}
                           </Card.Text>
 
                           <div className='addtobillbutton_div' >
-                            <Button onClick={() => {
-                             
-                                addBill(items.title, items.price, items.thumbnail, index);
-                             
-                            }} variant="primary">Add to bill</Button>
+                            <Button onClick={() => addBill(items.name, items.price, items.image, index)} variant="outline-success"><i class="fa-solid fa-cart-shopping"></i></Button>
+                            <Button onClick={() => favoritesFunction(items.name, items.price, items.image, index)} className='ms-1' variant='outline-danger' ><i class="fa-solid fa-heart"></i></Button>
 
                           </div>
 
@@ -106,6 +108,9 @@ function Home() {
                 )) : <p>No Items to display</p>
 
             }
+            </div>
+
+          
 
 
           </Row>
@@ -120,34 +125,33 @@ function Home() {
           <h3>Favorites Section</h3>
           <Row >
 
+            <div className='posters' >
             {
               favorites?.length > 0 ?                      /* RESULT IS THE FETCHED DATA */
                 favorites.map((items, index) => (
-                  <Col className='mt-3 searchbox' sm={12} md={12} lg={4} xl={3} xs={12} >
+                  <Col className='mt-3 ms-1 searchbox' sm={12} md={12} lg={4} xl={3} xs={12} >
 
                     <div className='card-container' >
                       <Card className='cards' >
-                        <Card.Img variant="top" width={'100%'} height={'100px'} src={items.thumbnail} />
+                        <Card.Img variant="top" width={'100%'} height={'100px'} src={items.image} />
                         <Card.Body>
-                          <Card.Title>{items.title}</Card.Title>
+                          <Card.Title>{items.name.slice(0,15)}</Card.Title>
                           <Card.Text>
                             <span className='priceQty_tag' >Price: </span>  {items.price}
 
                           </Card.Text>
                           <Card.Text>
-                            <span className='priceQty_tag' >  Quantity Available:  </span>{items.stock}
+                            <span className='priceQty_tag' >  Quantity:  </span>{items.quantity}
                           </Card.Text>
 
-                          <div className='addtobillbutton_div' >
+                          <div className='addtobillbutton_div d-flex justify-content-between' >
                             <Button onClick={() => {
-                              if (items && items.title) {
-                                addBill(items.title.slice(0, 20), items.price, items.thumbnail, index);
-                              } else {
-                                console.error("Title is undefined or null");
-                              }
-                            }} variant="outline-success">Add to bill</Button>
+                             
+                                addBill(items.name, items.price, items.image, index);
+                              
+                            }} variant="outline-success"><i class="fa-solid fa-cart-shopping"></i></Button>
 
-<Button onClick={() => favoritesFunction( items.price, items.thumbnail, index)} className='ms-1' variant='outline-danger' ><i class="fa-solid fa-heart"></i></Button>
+                            <Button onClick={() => favoritesFunction(items.name,items.price, items.image, index)} className='ms-1' variant='outline-danger' ><i class="fa-solid fa-heart"></i></Button>
 
                           </div>
 
@@ -164,6 +168,9 @@ function Home() {
                 )) : <p>No Items to display</p>
 
             }
+
+            </div>
+
 
 
           </Row>

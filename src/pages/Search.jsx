@@ -33,8 +33,8 @@ const {addToBill,setAddToBill} = useContext(addToBillContext)
   // Search data
 
   const [searchValue, setSearchValue] = useState("")
-  console.log("*********Searched Values*********")
-  console.log(searchValue);
+  // console.log("*********Searched Values*********")
+  // console.log(searchValue);
 
 
 
@@ -44,8 +44,8 @@ const {addToBill,setAddToBill} = useContext(addToBillContext)
     const updatedRecentSearch = [...recentSearch, { value, price, image, qty }];
     setRecentSearch(updatedRecentSearch);
 
-    console.log("********Recent********");
-    console.log("Updated recentSearch:", updatedRecentSearch);
+    // console.log("********Recent********");
+    // console.log("Updated recentSearch:", updatedRecentSearch);
 
     if (existingItemIndex !== -1) {
       // Item already exists, increase the quantity
@@ -79,8 +79,8 @@ const favoritesFunction = (value, price, image, qty) => {
   }
 };
 
-console.log('****favor*****')
-console.log(favorites)
+// console.log('****favor*****')
+// console.log(favorites)
 
 
   
@@ -101,7 +101,7 @@ console.log(favorites)
 
                 {/*Items area*/}
 
-                <div style={{ backgroundColor: 'rgb( 240 241 243 )' }} className='imageCards' >
+                <div  className='imageCards' >
                   <Row >
 
                     {
@@ -116,18 +116,18 @@ console.log(favorites)
                             <Card  className='cards' >
                               <Card.Img variant="top" width={'100%'} height={'100px'} src={items.thumbnail} />
                               <Card.Body>
-                                <Card.Title>{items.title.slice(0, 20)}</Card.Title>
+                                <Card.Title>{items.title.slice(0,12)}</Card.Title>
                                 <Card.Text>
                                   <span className='priceQty_tag' >Price: </span>  {items.price}
 
                                 </Card.Text>
                                 <Card.Text>
-                                  <span className='priceQty_tag' >  Quantity Available:  </span>{items.stock}
+                                  <span className='priceQty_tag' >  Quantity:  </span>{items.stock}
                                 </Card.Text>
 
                                 <div className='addtobillbutton_div' >
-                                 <Button onClick={() => addBill(items.title.slice(0, 20), items.price, items.thumbnail, index)} variant="primary">Add to bill</Button> 
-                                 <Button onClick={() => favoritesFunction(items.title.slice(0, 20), items.price, items.thumbnail, index)} className='ms-1' variant='outline-danger' ><i class="fa-solid fa-heart"></i></Button>
+                                 <Button onClick={() => addBill(items.title, items.price, items.thumbnail, index)} variant="outline-success"><i class="fa-solid fa-cart-shopping"></i></Button> 
+                                 <Button onClick={() => favoritesFunction(items.title, items.price, items.thumbnail, index)} className='ms-1' variant='outline-danger' ><i class="fa-solid fa-heart"></i></Button>
 
                                 </div>
 

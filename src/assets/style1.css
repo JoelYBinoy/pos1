@@ -43,7 +43,7 @@
 }
 
 .cards{
-    max-height: 350px;
+    max-height: 276px;
     max-width: 250px;
     
 }
@@ -68,12 +68,14 @@
 }
 
 .card-container:hover .cards {
-    transform: scale(1.1);
-    transition: transform 0.3s;
+    transform: scale(1.02);
+    transition: transform 0.2s;
+    cursor: pointer;
   }
   
   .cards {
     transition: transform 0.3s;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     
   }
 
@@ -199,4 +201,17 @@ margin-left: 100px;
         margin-left: 80px;
     }
 }
-  
+
+
+
+.posters{
+    display: flex;
+    padding: 20px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+.posters::-webkit-scrollbar{
+    display: none;
+}
+

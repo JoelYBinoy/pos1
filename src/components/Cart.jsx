@@ -5,12 +5,13 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import useFetch from '../api/useFetch';
 import addToBillContext from '../context/addToBillContext';
+import Modal from 'react-bootstrap/Modal';
 
 
 function Cart() {
 
   const {addToBill,setAddToBill} = useContext(addToBillContext)
-  const {recentPurchase ,setRecentPurchase} = useContext(addToBillContext)
+  const {setRecentPurchase} = useContext(addToBillContext)
 
 
   // Dummy Data
@@ -24,12 +25,38 @@ function Cart() {
   // Search data
 
   const [searchValue, setSearchValue] = useState("")
-  console.log("*********Searched Values*********")
-  console.log(searchValue);
+  // console.log("*********Searched Values*********")
+  // console.log(searchValue);
 
   // Items Count
 
   const itemCount = 0
+
+  const [subtractionValue, setSubtractionValue] = useState('');
+  const [subtractionResult, setSubtractionResult] = useState(null);
+
+
+  let totalPrice = 0;
+
+  for (const item of addToBill) {
+      totalPrice = totalPrice + (item.price * item.quantity) ;
+  }
+
+  const handleInputChange = (e) => {
+    setSubtractionValue(e.target.value);
+  };
+
+  // Handle form submit
+  const handleSubmit = (e) => {
+ 
+    // Subtract the entered value from the total price
+    const result = subtractionValue -totalPrice;
+    // Set the result to state
+    setSubtractionResult(result);
+  };
+
+
+
 
   const increment = (index) => {
     const updatedItems = [...addToBill];
@@ -81,10 +108,23 @@ function Cart() {
   //
   const proceedToBuy = () => {
 
-    console.log(addToBill);
+    handleShow()
+
+    setAddToBill([])
+    setSubtractionResult(null)
+    // console.log(addToBill);
     setRecentPurchase(addToBill)
-    console.log(recentPurchase);
+    // console.log(recentPurchase);
+    
   }
+
+
+/*Modal Area*/
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
 
 
 
@@ -132,6 +172,7 @@ function Cart() {
                             <i onClick={() => deleteList(index)} className="fa-solid fa-circle-xmark"></i>
                           </td>
                         </tr>
+
                       ))}
                     </tbody>
                   </table>
@@ -139,8 +180,28 @@ function Cart() {
 
                 {addToBill.length > 0 ? (
 
-                  <div style={{display:'flex',alignItems:'center',justifyContent:'center'}} >
-                <Button onClick={proceedToBuy}>Proceed To Buy</Button>
+<div >
+
+  <div className='mt-5' >
+  <h5>Total Price: Rs:{totalPrice.toFixed(2)}</h5>
+  </div>
+
+<form >
+  <input
+  className='form-control'
+    type="number"
+   
+    onChange={(e)=>setSubtractionValue(e.target.value)}
+    placeholder="Whole Amount"
+    required
+  />
+  <Button onClick={handleSubmit} type="button">Submit</Button>
+</form>
+{subtractionResult !== null && (
+  <h5>Change: Rs:{subtractionResult.toFixed(2)}</h5>
+)}
+                <Button className='mt-3' onClick={proceedToBuy}>Proceed To Buy</Button>
+               
                   </div>
                 
                 ) : (
@@ -158,6 +219,31 @@ function Cart() {
           </Row>
         </div>
       </div>
+
+
+
+
+       {/* The Modal Area */}
+
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Alert Message</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+         The Items have been successfully submitted.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Confirm
+          </Button>
+         
+        </Modal.Footer>
+      </Modal>
 
     </>
   )
